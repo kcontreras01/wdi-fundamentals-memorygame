@@ -1,10 +1,3 @@
-// var cardOne = "queen";
-// var cardTwo = "queen";
-// var cardThree = "king";
-// var cardFour = "king";
-
-
-
 var cards = [
 	{
 		rank: "queen",
@@ -40,21 +33,35 @@ var checkForMatch = function() {
 
 checkForMatch();
 
-var flipCard = function(cardId){
-	console.log("User flipped queen");
-	console.log("User flipped king");
+var flipCard = function(event){
+	var cardId = event.target.getAttribute('data-id');
+	var card = cards[cardId];
+	event.target.setAttribute('src', card.cardImage);
+	event.target.setAttribute('class', 'clicked');
+	console.log(this);
+	cardsInPlay.push(card.rank);
 
-	console.log("User flipped " + cards[cardId].rank);
-	cardsInPlay.push(cards[cardId].rank);
-	console.log(cards[cardId].cardImage);
-	console.log(cards[cardId].suit);
+	if (cardsInPlay.length === 2) {
+		checkForMatch();
+	}
+	// console.log("User flipped queen");
+	// console.log("User flipped king");
+
+	// console.log("User flipped " + cards[cardId].rank);
+	// console.log(cards[cardId].cardImage);
+	// console.log(cards[cardId].suit);
 }
 
-flipCard(0);
-flipCard(2);
+var createBoard = function(){
+	for (var i = 0; i < cards.length; i++) {
+		var cardElement = document.createElement('img');
+		cardElement.setAttribute('src','images/back.png');
+		cardElement.setAttribute('data-id', i);
+		this.addEventListener('click', flipCard);
+		var board = document.getElementById('game-board');
+		board.appendChild(cardElement);
 
+  }
+}
 
-
-
-// console.log("User flipped " + cardOne);
-// console.log("User flipped " + cardFour);
+createBoard();
